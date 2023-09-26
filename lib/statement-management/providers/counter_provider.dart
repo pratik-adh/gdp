@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Counter with ChangeNotifier {
+class CounterControllerProvider with ChangeNotifier {
   int _count = 0;
 
   // get to access the count value outside of the file

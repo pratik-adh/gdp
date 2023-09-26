@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gdp/providers/counter_provider.dart';
+import 'package:gdp/statement-management/getx/getx.dart';
+import 'package:gdp/statement-management/providers/counter_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<Counter>(context); // Get the provider instance
+    final provider = Provider.of<CounterControllerProvider>(
+        context); // Get the provider instance
+    final getxController = Get.put(CounterControllerGetx());
 
     return Scaffold(
       appBar: AppBar(
@@ -21,31 +25,91 @@ class MyHomePage extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times: ${provider.count}',
+            TextComponent(count: provider.count, service: "Provider"),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  child: const Icon(Icons.remove),
+                  onPressed: () => provider.decrement(),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                ElevatedButton(
+                  child: const Icon(Icons.add),
+                  onPressed: () => provider.increment(),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TextComponent(count: getxController.count, service: "Getx"),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  child: const Icon(Icons.remove),
+                  onPressed: () => getxController.decrement(),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                ElevatedButton(
+                  child: const Icon(Icons.add),
+                  onPressed: () => getxController.increment(),
+                ),
+              ],
             ),
           ],
         ),
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class TextComponent extends StatelessWidget {
+  final dynamic count;
+  final String service;
+
+  const TextComponent({super.key, required this.count, required this.service});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
         children: [
-          FloatingActionButton(
-            onPressed: () => provider.increment(),
-            tooltip: 'Increment',
-            child: const Icon(Icons.add),
+          Text('Handled by $service: ',
+              style: const TextStyle(
+                fontSize: 16,
+              )),
+          const SizedBox(
+            height: 10,
+          ),
+          const Text(
+            "Number of times the button's pressed ",
           ),
           const SizedBox(
-            width: 10,
+            height: 10,
           ),
-          FloatingActionButton(
-            onPressed: () => provider.decrement(),
-            tooltip: 'Increment',
-            child: const Icon(Icons.remove),
-          )
+          Text(
+            '$count',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20.0,
+            ),
+          ),
         ],
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }

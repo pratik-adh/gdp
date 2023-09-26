@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gdp/providers/counter_provider.dart';
+import 'package:gdp/statement-management/providers/counter_provider.dart';
 import 'package:gdp/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(MultiProvider(
-    providers: [ChangeNotifierProvider(create: (_) => Counter())],
+    providers: [
+      ChangeNotifierProvider(create: (_) => CounterControllerProvider()),
+    ],
     child: const MyApp(),
   ));
 }
