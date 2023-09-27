@@ -12,13 +12,35 @@ class ScannerScreen extends StatefulWidget {
 class _ScannerScreenState extends State<ScannerScreen> {
   String _scanBarcode = "";
 
+  Future<void> scanQR() async {
+    String barcodeScanRes;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.QR);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _scanBarcode = barcodeScanRes;
+    });
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> scanBarcodeNormal() async {
     String barcodeScanRes;
     // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
 
-    barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-        "#42f5ef", "Cancel", true, ScanMode.QR);
-    print(barcodeScanRes);
+    if (!mounted) return;
 
     setState(() {
       _scanBarcode = barcodeScanRes;
@@ -49,9 +71,20 @@ class _ScannerScreenState extends State<ScannerScreen> {
             height: 20,
           ),
           ElevatedButton(
-            onPressed: scanBarcodeNormal,
-            child: const Text("Scan either QR of Barcode"),
+              onPressed: () => scanBarcodeNormal(),
+              style: ElevatedButton.styleFrom(
+                fixedSize: const Size(150, 40),
+              ),
+              child: const Text('Barcode Scanner')),
+          const SizedBox(
+            height: 10,
           ),
+          ElevatedButton(
+              onPressed: () => scanQR(),
+              style: ElevatedButton.styleFrom(
+                fixedSize: const Size(150, 40),
+              ),
+              child: const Text('QR Scanner')),
         ],
       )),
     );
