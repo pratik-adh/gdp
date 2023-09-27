@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 class CounterControllerGetx extends GetxController {
   final RxInt count = 0.obs;
+  RxString myValue = "Getx".obs;
 
   // get to access the count value outside of the file
 

@@ -40,6 +40,13 @@ class MyHomePage extends StatelessWidget {
                   width: 10,
                 ),
                 ElevatedButton(
+                  child: const Icon(Icons.exposure_zero),
+                  onPressed: () => provider.reset(),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                ElevatedButton(
                   child: const Icon(Icons.add),
                   onPressed: () => provider.increment(),
                 ),
@@ -48,7 +55,9 @@ class MyHomePage extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            TextComponent(count: getxController.count, service: "Getx"),
+            Obx(() => TextComponent(
+                count: getxController.count.value,
+                service: getxController.myValue.value)),
             const SizedBox(
               height: 20,
             ),
@@ -58,6 +67,13 @@ class MyHomePage extends StatelessWidget {
                 ElevatedButton(
                   child: const Icon(Icons.remove),
                   onPressed: () => getxController.decrement(),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                ElevatedButton(
+                  child: const Icon(Icons.exposure_zero),
+                  onPressed: () => getxController.reset(),
                 ),
                 const SizedBox(
                   width: 10,
@@ -84,6 +100,8 @@ class TextComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final controller = Get.find<CounterControllerGetx>();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
@@ -107,7 +125,7 @@ class TextComponent extends StatelessWidget {
               fontWeight: FontWeight.bold,
               fontSize: 20.0,
             ),
-          ),
+          )
         ],
       ),
     );
