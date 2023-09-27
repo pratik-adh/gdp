@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gdp/screens/scanner_screen.dart';
 import 'package:gdp/statement-management/providers/counter_provider.dart';
 import 'package:gdp/screens/home_screen.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       routes: {
         "/": (_) => const MyHomePage(),
+        "/scanner": (_) => const ScannerScreen(),
       },
     );
   }

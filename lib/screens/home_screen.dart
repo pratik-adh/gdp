@@ -84,6 +84,22 @@ class MyHomePage extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(
+              height: 20,
+            ),
+            const Text(
+              "Go to next page to scan the QR",
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+              child: const Text("Scan QR",
+                  style: TextStyle(
+                    fontSize: 16,
+                  )),
+              onPressed: () => Navigator.pushNamed(context, "/scanner"),
+            ),
           ],
         ),
       ),

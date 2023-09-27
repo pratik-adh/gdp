@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
-// import 'package:gdp/models/login_response.dart';
 
-class Logging extends Interceptor {
-  Dio dio;
-  Logging({required this.dio});
+class DioInterceptor extends Interceptor {
+  Dio dio = Dio(BaseOptions(baseUrl: "base-api-url"));
+
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     options.headers.addAll({
