@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gdp/statement-management/getx/getx.dart';
 import 'package:gdp/statement-management/providers/counter_provider.dart';
+import 'package:gdp/statement-management/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:get/get.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<CounterControllerProvider>(
-        context); // Get the provider instance
-    final getxController = Get.put(CounterControllerGetx());
-
+    final provider = Provider.of<CounterControllerProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    // final getxController = Get.put(CounterControllerGetx());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
@@ -22,86 +20,115 @@ class MyHomePage extends StatelessWidget {
           statusBarColor: Colors.blue,
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            TextComponent(count: provider.count, service: "Provider"),
-            const SizedBox(height: 20),
-            Row(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  child: const Icon(Icons.remove),
-                  onPressed: () => provider.decrement(),
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                TextComponent(count: provider.count, service: "Provider"),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      child: const Icon(Icons.remove),
+                      onPressed: () => provider.decrement(),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    ElevatedButton(
+                      child: const Icon(Icons.exposure_zero),
+                      onPressed: () => provider.reset(),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    ElevatedButton(
+                      child: const Icon(Icons.add),
+                      onPressed: () => provider.increment(),
+                    ),
+                  ],
                 ),
                 const SizedBox(
-                  width: 10,
+                  height: 20,
                 ),
-                ElevatedButton(
-                  child: const Icon(Icons.exposure_zero),
-                  onPressed: () => provider.reset(),
+                // Obx(() => TextComponent(
+                //     count: getxController.count.value,
+                //     service: getxController.myValue.value)),
+                const SizedBox(
+                  height: 20,
+                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     ElevatedButton(
+                //       child: const Icon(Icons.remove),
+                //       onPressed: () => getxController.decrement(),
+                //     ),
+                //     const SizedBox(
+                //       width: 10,
+                //     ),
+                //     ElevatedButton(
+                //       child: const Icon(Icons.exposure_zero),
+                //       onPressed: () => getxController.reset(),
+                //     ),
+                //     const SizedBox(
+                //       width: 10,
+                //     ),
+                //     ElevatedButton(
+                //       child: const Icon(Icons.add),
+                //       onPressed: () => getxController.increment(),
+                //     ),
+                //   ],
+                // ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  "Go to next page to scan the QR",
                 ),
                 const SizedBox(
-                  width: 10,
+                  height: 10,
                 ),
                 ElevatedButton(
-                  child: const Icon(Icons.add),
-                  onPressed: () => provider.increment(),
+                  child: const Text("Scan QR",
+                      style: TextStyle(
+                        fontSize: 16,
+                      )),
+                  onPressed: () => Navigator.pushNamed(context, "/scanner"),
                 ),
               ],
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Obx(() => TextComponent(
-                count: getxController.count.value,
-                service: getxController.myValue.value)),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
+          ),
+          Center(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
-                  child: const Icon(Icons.remove),
-                  onPressed: () => getxController.decrement(),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                ElevatedButton(
-                  child: const Icon(Icons.exposure_zero),
-                  onPressed: () => getxController.reset(),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                ElevatedButton(
-                  child: const Icon(Icons.add),
-                  onPressed: () => getxController.increment(),
+                const Text('Switch between Dark and Light Themes:'),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => themeProvider.toggleDark(),
+                      child: const Text('Dark'),
+                    ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () => themeProvider.toggleLight(),
+                      child: const Text('Light'),
+                    ),
+                  ],
                 ),
               ],
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            const Text(
-              "Go to next page to scan the QR",
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(
-              child: const Text("Scan QR",
-                  style: TextStyle(
-                    fontSize: 16,
-                  )),
-              onPressed: () => Navigator.pushNamed(context, "/scanner"),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );

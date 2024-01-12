@@ -40,6 +40,7 @@ dependencies:
   get: ^4.6.6
   flutter_barcode_scanner: ^2.0.0
   qr_flutter: ^4.1.0
+  flutter_riverpod: ^2.4.9
 
 dev_dependencies:
   flutter_test:
